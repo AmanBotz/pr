@@ -1,5 +1,7 @@
 import os
 import logging
+from fastapi import FastAPI
+import uvicorn
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from config import Config
@@ -35,3 +37,13 @@ async def test_command(client, message):
 
 if __name__ == "__main__":
     app.run()
+
+# Add at bottom of file
+web_app = FastAPI()
+
+@web_app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
+if __name__ == "__main__":
+    uvicorn.run(web_app, host="0.0.0.0", port=8000)
